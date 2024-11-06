@@ -7,6 +7,12 @@ from tkinter import messagebox as mb
 from tkinter import ttk
 
 
+def update_c_label(event):
+    code = combobox.get()
+    name = cur[code]
+    c_label.config(text=name)
+
+
 def exchange():
     code = combobox.get()
 
@@ -26,17 +32,30 @@ def exchange():
         mb.showwarning("Внимание!", "Введите код валюты")
 
 
+cur = {
+    "RUB": "Российский рубль",
+    "EUR": "Евро",
+    "TRY": "Турецкая лира",
+    "THB": "Тайский бат",
+    "UAH": "Украинская гривна",
+    "CNY": "Китайский юань",
+    "KZT": "Казахский тенге",
+    "UZS": "Узбекский сум",
+    "CHF": "Швейцарский франк",
+    "CAD": "Канадский доллар"}
+
 window = Tk()
 window.title("Курс обмена валют")
 window.geometry("360x180")
 
 Label(text="Выберите код валюты").pack(padx=10, pady=10)
-cur = ["RUB", "EUR", "TRY", "THB", "UAH", "CNY", "KZT", "UZS", "CHF", "CAD"]
-combobox = ttk.Combobox(values=cur)
-combobox.pack(padx=10, pady=10)
 
-# entry = Entry()
-# entry.pack(padx=10, pady=10)
+combobox = ttk.Combobox(values=list(cur.keys()))
+combobox.pack(padx=10, pady=10)
+combobox.bind("<<ComboboxSelected>>", update_c_label)
+
+c_label = ttk.Label()
+c_label.pack(padx=10, pady=10)
 
 Button(text="Получить курс обмена к USD", command=exchange).pack(padx=10, pady=10)
 
